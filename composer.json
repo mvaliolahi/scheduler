@@ -1,0 +1,36 @@
+{
+  "name": "mvaliolahi/scheduler",
+  "description": "Command Scheduler.",
+  "keywords": [
+    "Schedule",
+    "Scheduler",
+    "Cron",
+    "Job Schedule",
+    "Command Scheduler"
+  ],
+  "homepage": "https://mvaliolahi.ir",
+  "authors": [
+    {
+      "name": "Meysam Valiolahi",
+      "email": "mvaliolahi@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Mvaliolahi\\Scheduler\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "nesbot/carbon": ">=1.22",
+    "mtdowling/cron-expression": ">=1.2.1",
+    "symfony/process": ">=3.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.2"
+  }
+}
