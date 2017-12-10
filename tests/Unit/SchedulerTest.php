@@ -62,6 +62,27 @@ class SchedulerTest extends TestCase
         $this->assertEquals(2, count($this->scheduler->dueCommands()));
     }
 
+    /** @test */
+    public function it_should_use_a_command_prefix_for_command_method()
+    {
+        $scheduler = new Scheduler([
+            'command_prefix' => 'php merk-cli',
+        ]);
+
+        $scheduler->command('test-cmd')->everyMinute();
+
+        $this->assertEquals('php merk-cli test-cmd', $scheduler->commands()[0]->command);
+    }
+
+    /** @test */
+    public function it_should_not_add_prefix_for_commands_when_is_not_configured()
+    {
+        $scheduler = new Scheduler();
+
+        $scheduler->command('php test-cmd')->everyMinute();
+
+        $this->assertEquals('php test-cmd', $scheduler->commands()[0]->command);
+    }
 
     protected function setUp()
     {

@@ -60,14 +60,14 @@ class SchedulerTest extends TestCase
     /** @test */
     public function it_should_return_result_of_commands()
     {
-        $this->scheduler->command('cd')
+        $this->scheduler->exec('cd')
             ->output('')
             ->everyMinute()->when(function () {
                 return false;
             });
 
         $command = 'echo this is a test!';
-        $this->scheduler->command($command)
+        $this->scheduler->exec($command)
             ->output('')
             ->everyMinute();
 

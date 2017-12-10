@@ -11,7 +11,8 @@ framework agnostic command scheduler that can be easily integrated with any proj
     1. create an instance of Scheduler then add some command and schedule them.
     
         $scheduler = new Scheduler([
-            'cwd' => 'command path'
+            'cwd' => 'project path | where commands can be run',
+            'command_prefix' => 'php specific-cli'
         ]);
         
         $scheduler->command('rm test.php -fr')

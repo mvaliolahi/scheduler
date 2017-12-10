@@ -32,6 +32,11 @@ class Scheduler
     /**
      * @var
      */
+    protected $commandPrefix;
+
+    /**
+     * @var
+     */
     protected $runOutput;
 
     /**
@@ -41,6 +46,7 @@ class Scheduler
     public function __construct($params = [])
     {
         $this->currentWorkDirectory = $params['cwd'] ?? null;
+        $this->commandPrefix = $params['command_prefix'] ?? '';
     }
 
     /**
@@ -48,6 +54,11 @@ class Scheduler
      * @return Command
      */
     public function command($command)
+    {
+        return $this->exec(trim("{$this->commandPrefix} {$command}"));
+    }
+
+    public function exec($command)
     {
         $this->commands[] = $command = new Command($command, $this->currentWorkDirectory);
 
