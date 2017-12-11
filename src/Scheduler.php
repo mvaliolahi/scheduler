@@ -13,10 +13,6 @@ namespace Mvaliolahi\Scheduler;
  * Class Scheduler
  * @package Mvaliolahi\Scheduler
  */
-/**
- * Class Scheduler
- * @package Mvaliolahi\Scheduler
- */
 class Scheduler
 {
     /**
@@ -122,5 +118,13 @@ class Scheduler
     public function result()
     {
         return $this->runOutput;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function timezone()
+    {
+        return $this->timezone;
     }
 }
