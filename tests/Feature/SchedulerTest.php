@@ -68,7 +68,6 @@ class SchedulerTest extends TestCase
 
         $command = 'echo this is a test!';
         $this->scheduler->exec($command)
-            ->output('')
             ->everyMinute();
 
         $this->scheduler->start();

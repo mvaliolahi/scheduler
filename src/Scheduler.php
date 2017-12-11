@@ -40,6 +40,11 @@ class Scheduler
     protected $runOutput;
 
     /**
+     * @var
+     */
+    protected $timezone;
+
+    /**
      * Scheduler constructor.
      * @param $params
      */
@@ -47,6 +52,7 @@ class Scheduler
     {
         $this->currentWorkDirectory = $params['cwd'] ?? null;
         $this->commandPrefix = $params['command_prefix'] ?? '';
+        $this->timezone = $params['timezone'] ?? null;
     }
 
     /**
@@ -58,9 +64,13 @@ class Scheduler
         return $this->exec(trim("{$this->commandPrefix} {$command}"));
     }
 
+    /**
+     * @param $command
+     * @return Command
+     */
     public function exec($command)
     {
-        $this->commands[] = $command = new Command($command, $this->currentWorkDirectory);
+        $this->commands[] = $command = new Command($command, $this->currentWorkDirectory, $this->timezone);
 
         return $command;
     }

@@ -16,7 +16,7 @@ framework agnostic command scheduler that can be easily integrated with any proj
         ]);
         
         $scheduler->command('rm test.php -fr')
-        ->hourly()-
+        ->hourly()
         >when(function()
             {
                 return true; // in this situation.
@@ -28,9 +28,10 @@ framework agnostic command scheduler that can be easily integrated with any proj
         
     2. use a cron job to run the $scheduler->start() in a specific period of time.: `* * * * * php /project/schedule:run >> /dev/null 2>&1`
     
-    
+Tips: Scheduler can be configured using another params named `timezone`, this parameter apply an specify timezone to add commands but you can overwrite them using `->timezone()` method.   
+
 ###### Frequencies: 
-           ->cron('* * * * * *');	Run the command on a custom Cron schedule
+           ->cron('* * * * *');	Run the command on a custom Cron schedule
            ->everyMinute();	Run the command every minute
            ->everyFiveMinutes();	Run the command every five minutes
            ->everyTenMinutes();	Run the command every ten minutes
@@ -57,7 +58,7 @@ framework agnostic command scheduler that can be easily integrated with any proj
            ->saturdays();	Limit the command to Saturday
            ->between($start, $end);	Limit the command to run between start and end times
            ->when(Closure);	Limit the command based on a truth test
-           
+                   
 ###### Todo
            
            - handle overlapping.

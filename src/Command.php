@@ -64,11 +64,18 @@ class Command
     public $timezone;
 
     /**
+     * Default timezone for all commands.
+     *
+     * @var
+     */
+    public $globalTimezone;
+
+    /**
      * The location to send output.
      *
      * @var string
      */
-    public $output = '/dev/null';
+    public $output = '';
 
     /**
      * The current date to check due commands in test-cases.
@@ -115,11 +122,13 @@ class Command
      *
      * @param $command
      * @param $currentWorkDirectory
+     * @param $timezone
      */
-    public function __construct($command, $currentWorkDirectory)
+    public function __construct($command, $currentWorkDirectory, $timezone)
     {
         $this->command = $command;
         $this->currentWorkDirectory = $currentWorkDirectory ?? null;
+        $this->globalTimezone = $timezone;
     }
 
     /**
@@ -172,6 +181,8 @@ class Command
 
         if ($this->timezone) {
             $date->setTimezone($this->timezone);
+        } else if ($this->globalTimezone) {
+            $date->setTimezone($this->globalTimezone);
         }
 
         return CronExpression::factory($this->expression)->isDue($date->toDateTimeString());
