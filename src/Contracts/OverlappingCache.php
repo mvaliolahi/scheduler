@@ -21,23 +21,23 @@ interface OverlappingCache
      * @param $minute
      * @return mixed
      */
-    public function put($key, $value, $minute);
+    public static function put($key, $value, $minute);
 
     /**
      * @param $key
      * @return mixed
      */
-    public function get($key);
+    public static function get($key);
 
     /**
      * @param $key
      * @return mixed
      */
-    public function has($key);
+    public static function has($key);
 
     /**
      * @param $key
      * @return mixed
      */
-    public function forget($key);
+    public static function forget($key);
 }
