@@ -10,18 +10,18 @@ framework agnostic command scheduler that can be easily integrated with any proj
 
 ```php
     
-        $scheduler = new Scheduler([
-            'cwd' => 'project path | where commands can be run',
-            'command_prefix' => 'php specific-cli'
-        ]);
+    $scheduler = new Scheduler([
+        'cwd' => 'project path | where commands can be run',
+        'command_prefix' => 'php specific-cli',
+        'cache' => 'an implementation from OverlappinCache Contract'
+    ]);
         
-        $scheduler->command('rm test.php -fr')
-        ->hourly()
-        >when(function()
-            {
-                return true; // in this situation.
-            }
-        );
+    $scheduler->command('rm test.php -fr')
+    ->hourly()
+    ->when(function()
+    {
+        return true; // in this situation.
+    });
         
         
         $scheduler->start();
@@ -31,8 +31,8 @@ framework agnostic command scheduler that can be easily integrated with any proj
 Tips: Scheduler can be configured using another params named `timezone`, this parameter apply an specific timezone to add commands but you can overwrite them using `->timezone()` method.   
 
 ###### Frequencies: 
-```
-    ->everyMinute();	Run the command every minute
+```php
+   ->everyMinute();	Run the command every minute
    ->everyFiveMinutes();	Run the command every five minutes
    ->everyTenMinutes();	Run the command every ten minutes
    ->everyFifteenMinutes();	Run the command every fifteen minutes

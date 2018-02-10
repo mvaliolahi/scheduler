@@ -16,6 +16,7 @@ namespace Mvaliolahi\Scheduler;
 use Carbon\Carbon;
 use Closure;
 use Cron\CronExpression;
+use Mvaliolahi\Scheduler\Contracts\OverlappingCache;
 use Mvaliolahi\Scheduler\Traits\ManagesFrequencies;
 use Symfony\Component\Process\Process;
 
@@ -85,6 +86,18 @@ class Command
     public $date;
 
     /**
+     * Prevent overlapping.
+     *
+     * @var bool
+     */
+    public $withoutOverlapping = false;
+
+    /**
+     * @var OverlappingCache
+     */
+    protected $cache;
+
+    /**
      * The array of callbacks to be run before the event is started.
      *
      * @var array
@@ -120,12 +133,14 @@ class Command
     /**
      * Command constructor.
      *
+     * @param $cache
      * @param $command
      * @param $currentWorkDirectory
      * @param $timezone
      */
-    public function __construct($command, $currentWorkDirectory, $timezone)
+    public function __construct($cache, $command, $currentWorkDirectory, $timezone)
     {
+        $this->cache = $cache;
         $this->command = $command;
         $this->currentWorkDirectory = $currentWorkDirectory ?? null;
         $this->globalTimezone = $timezone;
@@ -193,6 +208,14 @@ class Command
      */
     public function run()
     {
+        if ($this->withoutOverlapping) {
+            if ($this->cache->has($this->mutexName())) {
+                return false;
+            }
+
+            $this->cache->put($this->mutexName(), true, 1440);
+        }
+
         $this->runBeforeCallbacks();
 
         $process = new Process($this->buildCommand(), $this->currentWorkDirectory);
@@ -204,6 +227,14 @@ class Command
         }
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function mutexName()
+    {
+        return 'schedule-' . sha1($this->expression . $this->command);
     }
 
     /**
@@ -248,17 +279,6 @@ class Command
     }
 
     /**
-     * @param Closure $callback
-     * @return $this
-     */
-    public function skip(Closure $callback)
-    {
-        $this->rejects[] = $callback;
-
-        return $this;
-    }
-
-    /**
      * @param $user
      * @return $this
      */
@@ -283,19 +303,6 @@ class Command
     }
 
     /**
-     * Add new closure to execute right after commands fired.
-     *
-     * @param Closure $closure
-     * @return $this
-     */
-    public function after(Closure $closure)
-    {
-        $this->afterCallbacks[] = $closure;
-
-        return $this;
-    }
-
-    /**
      * Using this method we decide to run command or not.
      *
      * @return bool
@@ -315,5 +322,41 @@ class Command
         }
 
         return true;
+    }
+
+    /**
+     *
+     */
+    public function withoutOverlapping()
+    {
+        $this->withoutOverlapping = true;
+
+        return $this->after(function () {
+            $this->cache->forget($this->mutexName());
+        });
+    }
+
+    /**
+     * @param Closure $callback
+     * @return $this
+     */
+    public function skip(Closure $callback)
+    {
+        $this->rejects[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Add new closure to execute right after commands fired.
+     *
+     * @param Closure $closure
+     * @return $this
+     */
+    public function after(Closure $closure)
+    {
+        $this->afterCallbacks[] = $closure;
+
+        return $this;
     }
 }

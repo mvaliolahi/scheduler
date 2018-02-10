@@ -26,7 +26,7 @@ class SchedulerTest extends TestCase
     protected $scheduler;
 
     /** @test */
-    public function it_should_have_an_array_of_commands()
+    public function it_should_be_able_to_accept_several_command()
     {
         $this->scheduler->command('schedule:list')->hourly()->description('Show all schedule list.');
         $this->scheduler->command('schedule:fail')->monthly();
@@ -35,7 +35,7 @@ class SchedulerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_an_instance_of_command_class()
+    public function commands_should_be_instance_of_Command_Class()
     {
         $this->assertInstanceOf(
             Command::class,
@@ -47,7 +47,7 @@ class SchedulerTest extends TestCase
     public function it_should_return_all_due_commands()
     {
         $this->scheduler->command('cp ~/project/test/ ~/tmp/')
-            ->date(Carbon::create(2017, 12, 12, 00, 06, 00))
+            ->date(Carbon::create(2017, 12, 12, 00, 06, 00)) // to fake current Date/Time
             ->everyFiveMinutes(); // is not ready!
 
         $this->scheduler->command('cp ~/project/test/ ~/tmp/')
@@ -56,14 +56,14 @@ class SchedulerTest extends TestCase
 
         $this->scheduler->command('rm test.php -fr')
             ->user('meysam-pc')
-            ->date(Carbon::create(2017, 12, 12, 00, 00, 00))
+            ->date(Carbon::create(2017, 12, 12, 00, 00, 00)) // is ready :)
             ->hourly();
 
         $this->assertEquals(2, count($this->scheduler->dueCommands()));
     }
 
     /** @test */
-    public function it_should_use_a_command_prefix_for_command_method()
+    public function it_should_apply_command_prefix_to_commands()
     {
         $scheduler = new Scheduler([
             'command_prefix' => 'php your-cli',
@@ -75,7 +75,7 @@ class SchedulerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_not_add_prefix_for_commands_when_is_not_configured()
+    public function by_default_commands_dose_not_use_any_prefix()
     {
         $scheduler = new Scheduler();
 

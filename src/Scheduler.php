@@ -9,12 +9,19 @@
 namespace Mvaliolahi\Scheduler;
 
 
+use Mvaliolahi\Scheduler\Contracts\OverlappingCache;
+
+
 /**
  * Class Scheduler
  * @package Mvaliolahi\Scheduler
  */
 class Scheduler
 {
+    /**
+     * @var OverlappingCache
+     */
+    protected $cache;
     /**
      * @var array
      */
@@ -49,6 +56,7 @@ class Scheduler
         $this->currentWorkDirectory = $params['cwd'] ?? null;
         $this->commandPrefix = $params['command_prefix'] ?? '';
         $this->timezone = $params['timezone'] ?? null;
+        $this->cache = $params['cache'] ?? null;
     }
 
     /**
@@ -66,7 +74,12 @@ class Scheduler
      */
     public function exec($command)
     {
-        $this->commands[] = $command = new Command($command, $this->currentWorkDirectory, $this->timezone);
+        $this->commands[] = $command = new Command(
+            $this->cache,
+            $command,
+            $this->currentWorkDirectory,
+            $this->timezone
+        );
 
         return $command;
     }
@@ -87,7 +100,7 @@ class Scheduler
             $this->runOutput[$command->command()] = $command->run();
         }
 
-        return 'There is not command to execute.';
+        return 'There is no command to execute.';
     }
 
     /**
@@ -111,7 +124,7 @@ class Scheduler
     }
 
     /**
-     * Result of execute all due commands.
+     * Execute results of all the due commands.
      *
      * @return mixed
      */
