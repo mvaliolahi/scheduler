@@ -1,84 +1,16 @@
 language: php
 
-cache:
-  apt: true
-  directories:
-    - $HOME/.composer/cache
-
-sudo: false
+php:
+  - nightly
 
 before_install:
   - if [[ $coverage = 'false' ]]; then phpenv config-rm xdebug.ini; fi
 
-install:
-  - if [[ $phpstan = 'true' ]]; then travis_retry composer require --dev phpstan/phpstan; fi
-  - if [[ $setup = 'basic'  ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest; fi
-  - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable; fi
-  - |
-    if [[ $setup = 'lowest' ]]; then
-        composer require sebastian/comparator:"~1.2.4" --no-update --dev
-        travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable --prefer-lowest
-    fi
-script:
-  - composer phpunit
-  - if [[ $phpstan = 'true' ]]; then composer phpstan; fi
+before_script:
+  - composer install
 
 after_success:
   - if [[ $coverage = 'true' ]]; then bash <(curl -s https://codecov.io/bash); fi
 
-branches:
-  only:
-    - gh-pages
-    - /.*/
-
-matrix:
-  include:
-    - php: 5.3
-      dist: precise
-    - php: 5.3
-      dist: precise
-      env: setup=lowest
-    - php: 5.3
-      dist: precise
-      env: setup=stable
-
-    - php: 5.4
-    - php: 5.4
-      env: setup=lowest
-    - php: 5.4
-      env: setup=stable
-
-    - php: 5.5
-    - php: 5.5
-      env: setup=lowest
-    - php: 5.5
-      env: setup=stable
-
-    - php: 5.6
-    - php: 5.6
-      env: setup=lowest
-    - php: 5.6
-      env: setup=stable
-
-    - php: 7.0
-    - php: 7.0
-      env: setup=lowest
-    - php: 7.0
-      env: setup=stable
-
-    - php: 7.1
-    - php: 7.1
-      env: setup=lowest
-    - php: 7.1
-      env: setup=stable
-
-    - php: 7.2
-      env:
-        - coverage=true
-        - phpstan=true
-    - php: 7.2
-      env: setup=lowest
-    - php: 7.2
-      env: setup=stable
-
-  fast_finish: true
+notifications:
+  email: mvaliolahi@gmail.com
