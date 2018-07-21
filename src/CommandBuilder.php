@@ -5,13 +5,10 @@
  * Date: 12/10/2017
  * Time: 10:48 AM
  */
-
 namespace Mvaliolahi\Scheduler;
-
 
 /**
  * Class CommandBuilder
- * @package Mvaliolahi\Scheduler
  */
 class CommandBuilder
 {
@@ -22,6 +19,7 @@ class CommandBuilder
 
     /**
      * CommandBuilder constructor.
+     *
      * @param Command $command
      */
     public function __construct(Command $command)

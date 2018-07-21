@@ -5,11 +5,9 @@
  * Date: 12/5/2017
  * Time: 6:50 PM
  */
-
 namespace Mvaliolahi\Scheduler;
 
-
-/**
+/*
  * Class Command
  * @package Mvaliolahi\Scheduler
  */
@@ -20,10 +18,8 @@ use Mvaliolahi\Scheduler\Contracts\OverlappingCache;
 use Mvaliolahi\Scheduler\Traits\ManagesFrequencies;
 use Symfony\Component\Process\Process;
 
-
 /**
  * Class Command
- * @package Mvaliolahi\Scheduler
  */
 class Command
 {
@@ -102,28 +98,28 @@ class Command
      *
      * @var array
      */
-    protected $beforeCallbacks = [];
+    protected $beforeCallbacks = array();
 
     /**
      * The array of callbacks to be run after the event is finished.
      *
      * @var array
      */
-    protected $afterCallbacks = [];
+    protected $afterCallbacks = array();
 
     /**
      * The array of filter callbacks.
      *
      * @var array
      */
-    protected $filters = [];
+    protected $filters = array();
 
     /**
      * The array of reject callbacks.
      *
      * @var array
      */
-    protected $rejects = [];
+    protected $rejects = array();
 
     /**
      * @var
@@ -156,6 +152,7 @@ class Command
 
     /**
      * @param mixed $date
+     *
      * @return $this
      */
     public function date($date)
@@ -167,6 +164,7 @@ class Command
 
     /**
      * @param string $output
+     *
      * @return $this
      */
     public function output(string $output)
@@ -178,6 +176,7 @@ class Command
 
     /**
      * @param mixed $description
+     *
      * @return $this
      */
     public function description($description)
@@ -196,7 +195,7 @@ class Command
 
         if ($this->timezone) {
             $date->setTimezone($this->timezone);
-        } else if ($this->globalTimezone) {
+        } elseif ($this->globalTimezone) {
             $date->setTimezone($this->globalTimezone);
         }
 
@@ -223,6 +222,7 @@ class Command
 
         if ($process->isSuccessful()) {
             $this->runAfterCallbacks();
+
             return $process->getOutput();
         }
 
@@ -234,7 +234,7 @@ class Command
      */
     public function mutexName()
     {
-        return 'schedule-' . sha1($this->expression . $this->command);
+        return 'schedule-'.sha1($this->expression.$this->command);
     }
 
     /**
@@ -269,6 +269,7 @@ class Command
 
     /**
      * @param Closure $callback
+     *
      * @return $this
      */
     public function when(Closure $callback)
@@ -280,6 +281,7 @@ class Command
 
     /**
      * @param $user
+     *
      * @return $this
      */
     public function user($user)
@@ -293,6 +295,7 @@ class Command
      * Add new closure to execute right before commands fired.
      *
      * @param Closure $closure
+     *
      * @return $this
      */
     public function before(Closure $closure)
@@ -338,6 +341,7 @@ class Command
 
     /**
      * @param Closure $callback
+     *
      * @return $this
      */
     public function skip(Closure $callback)
@@ -351,6 +355,7 @@ class Command
      * Add new closure to execute right after commands fired.
      *
      * @param Closure $closure
+     *
      * @return $this
      */
     public function after(Closure $closure)

@@ -5,15 +5,12 @@
  * Date: 8/28/2017
  * Time: 8:08 AM
  */
-
 namespace Tests;
-
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * Class TestCase
- * @package Tests
  */
 class TestCase extends PHPUnitTestCase
 {
@@ -21,9 +18,10 @@ class TestCase extends PHPUnitTestCase
      * @param $method
      * @param $object
      * @param array $args
+     *
      * @return mixed
      */
-    public function callMethod($method, $object, $args = [])
+    public function callMethod($method, $object, $args = array())
     {
         $translator = new \ReflectionClass(get_class($object));
         $method = $translator->getMethod($method);
@@ -34,6 +32,7 @@ class TestCase extends PHPUnitTestCase
 
     /**
      * @param $string
+     *
      * @return bool|string
      */
     public function getProcessResult($string)
