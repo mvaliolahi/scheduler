@@ -1,5 +1,13 @@
 ## Command Scheduler
 
+[![Latest Stable Version](https://poser.pugx.org/mvaliolahi/scheduler/v/stable)](https://packagist.org/packages/mvaliolahi/scheduler)
+[![Total Downloads](https://poser.pugx.org/mvaliolahi/scheduler/downloads)](https://packagist.org/packages/mvaliolahi/scheduler)
+[![Build Status](https://travis-ci.org/mvaliolahi/scheduler.svg?branch=master)]https://travis-ci.org/mvaliolahi/scheduler)
+[![StyleCI](https://github.styleci.io/repos/113749373/shield?style=flat)](https://github.styleci.io/repos/113749373)
+[![PHP-Eye](https://php-eye.com/mvaliolahi/scheduler/tested.svg?style=flat)](https://php-eye.com/package/mvaliolahi/scheduler)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+
+
 framework agnostic command scheduler that can be easily integrated with any project. 
 
 ```shell
