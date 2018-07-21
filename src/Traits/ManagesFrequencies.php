@@ -5,9 +5,7 @@
  * Date: 12/9/2017
  * Time: 11:33 AM
  */
-
 namespace Mvaliolahi\Scheduler\Traits;
-
 
 use Carbon\Carbon;
 
@@ -15,15 +13,15 @@ use Carbon\Carbon;
  * This file wrote by Taylor-Otwell
  *
  * Class ManagesFrequencies
- * @package Mvaliolahi\Scheduler
  */
 trait ManagesFrequencies
 {
     /**
      * Schedule the event to run between start and end time.
      *
-     * @param  string $startTime
-     * @param  string $endTime
+     * @param string $startTime
+     * @param string $endTime
+     *
      * @return $this
      */
     public function between($startTime, $endTime)
@@ -34,14 +32,15 @@ trait ManagesFrequencies
     /**
      * Schedule the event to run between start and end time.
      *
-     * @param  string $startTime
-     * @param  string $endTime
+     * @param string $startTime
+     * @param string $endTime
+     *
      * @return \Closure
      */
     private function inTimeInterval($startTime, $endTime)
     {
         return function () use ($startTime, $endTime) {
-            $now = $this->date->getTimestamp() ??  Carbon::now()->getTimestamp();
+            $now = $this->date->getTimestamp() ?? Carbon::now()->getTimestamp();
 
             return $now >= strtotime($startTime) && $now <= strtotime($endTime);
         };
@@ -50,8 +49,9 @@ trait ManagesFrequencies
     /**
      * Schedule the event to not run between start and end time.
      *
-     * @param  string $startTime
-     * @param  string $endTime
+     * @param string $startTime
+     * @param string $endTime
+     *
      * @return $this
      */
     public function unlessBetween($startTime, $endTime)
@@ -72,8 +72,9 @@ trait ManagesFrequencies
     /**
      * Splice the given value into the given position of the expression.
      *
-     * @param  int $position
-     * @param  string $value
+     * @param int    $position
+     * @param string $value
+     *
      * @return $this
      */
     protected function spliceIntoPosition($position, $value)
@@ -88,7 +89,8 @@ trait ManagesFrequencies
     /**
      * The Cron expression representing the event's frequency.
      *
-     * @param  string $expression
+     * @param string $expression
+     *
      * @return $this
      */
     public function cron($expression)
@@ -101,7 +103,8 @@ trait ManagesFrequencies
     /**
      * Schedule the event to run hourly at a given offset in the hour.
      *
-     * @param  int $offset
+     * @param int $offset
+     *
      * @return $this
      */
     public function hourlyAt($offset)
@@ -123,7 +126,8 @@ trait ManagesFrequencies
     /**
      * Schedule the command at a given time.
      *
-     * @param  string $time
+     * @param string $time
+     *
      * @return $this
      */
     public function at($time)
@@ -134,27 +138,29 @@ trait ManagesFrequencies
     /**
      * Schedule the event to run daily at a given time (10:00, 19:30, etc).
      *
-     * @param  string $time
+     * @param string $time
+     *
      * @return $this
      */
     public function dailyAt($time)
     {
         $segments = explode(':', $time);
 
-        return $this->spliceIntoPosition(2, (int)$segments[0])
-            ->spliceIntoPosition(1, count($segments) == 2 ? (int)$segments[1] : '0');
+        return $this->spliceIntoPosition(2, (int) $segments[0])
+            ->spliceIntoPosition(1, count($segments) == 2 ? (int) $segments[1] : '0');
     }
 
     /**
      * Schedule the event to run twice daily.
      *
-     * @param  int $first
-     * @param  int $second
+     * @param int $first
+     * @param int $second
+     *
      * @return $this
      */
     public function twiceDaily($first = 1, $second = 13)
     {
-        $hours = $first . ',' . $second;
+        $hours = $first.','.$second;
 
         return $this->spliceIntoPosition(1, 0)
             ->spliceIntoPosition(2, $hours);
@@ -193,7 +199,8 @@ trait ManagesFrequencies
     /**
      * Set the days of the week the command should run on.
      *
-     * @param  array|mixed $days
+     * @param array|mixed $days
+     *
      * @return $this
      */
     public function days($days)
@@ -278,8 +285,9 @@ trait ManagesFrequencies
     /**
      * Schedule the event to run weekly on a given day and time.
      *
-     * @param  int $day
-     * @param  string $time
+     * @param int    $day
+     * @param string $time
+     *
      * @return $this
      */
     public function weeklyOn($day, $time = '0:0')
@@ -304,8 +312,9 @@ trait ManagesFrequencies
     /**
      * Schedule the event to run monthly on a given day and time.
      *
-     * @param  int $day
-     * @param  string $time
+     * @param int    $day
+     * @param string $time
+     *
      * @return $this
      */
     public function monthlyOn($day = 1, $time = '0:0')
@@ -384,7 +393,8 @@ trait ManagesFrequencies
     /**
      * Set the timezone the date should be evaluated on.
      *
-     * @param  \DateTimeZone|string $timezone
+     * @param \DateTimeZone|string $timezone
+     *
      * @return $this
      */
     public function timezone($timezone)

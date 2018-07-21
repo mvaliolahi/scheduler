@@ -5,16 +5,12 @@
  * Date: 12/5/2017
  * Time: 6:50 PM
  */
-
 namespace Mvaliolahi\Scheduler;
-
 
 use Mvaliolahi\Scheduler\Contracts\OverlappingCache;
 
-
 /**
  * Class Scheduler
- * @package Mvaliolahi\Scheduler
  */
 class Scheduler
 {
@@ -25,7 +21,7 @@ class Scheduler
     /**
      * @var array
      */
-    protected $commands = [];
+    protected $commands = array();
 
     /**
      * @var mixed|null
@@ -49,9 +45,10 @@ class Scheduler
 
     /**
      * Scheduler constructor.
+     *
      * @param $params
      */
-    public function __construct($params = [])
+    public function __construct($params = array())
     {
         $this->currentWorkDirectory = $params['cwd'] ?? null;
         $this->commandPrefix = $params['command_prefix'] ?? '';
@@ -61,6 +58,7 @@ class Scheduler
 
     /**
      * @param $command
+     *
      * @return Command
      */
     public function command($command)
@@ -70,6 +68,7 @@ class Scheduler
 
     /**
      * @param $command
+     *
      * @return Command
      */
     public function exec($command)
@@ -92,7 +91,6 @@ class Scheduler
     public function start()
     {
         foreach ($this->dueCommands() as $command) {
-
             if (!$command->filtersPass()) {
                 continue;
             }

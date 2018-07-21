@@ -5,9 +5,7 @@
  * Date: 12/9/2017
  * Time: 10:27 AM
  */
-
 namespace Tests\Unit;
-
 
 use Carbon\Carbon;
 use Mvaliolahi\Scheduler\Command;
@@ -16,7 +14,6 @@ use Tests\TestCase;
 
 /**
  * Class SchedulerTest
- * @package Tests\Unit
  */
 class SchedulerTest extends TestCase
 {
@@ -65,9 +62,9 @@ class SchedulerTest extends TestCase
     /** @test */
     public function it_should_apply_command_prefix_to_commands()
     {
-        $scheduler = new Scheduler([
+        $scheduler = new Scheduler(array(
             'command_prefix' => 'php your-cli',
-        ]);
+        ));
 
         $scheduler->command('test-cmd')->everyMinute();
 

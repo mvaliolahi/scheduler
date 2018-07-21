@@ -5,9 +5,7 @@
  * Date: 12/10/2017
  * Time: 11:16 AM
  */
-
 namespace Tests\Feature;
-
 
 use Carbon\Carbon;
 use Mvaliolahi\Scheduler\Scheduler;
@@ -15,7 +13,6 @@ use Tests\TestCase;
 
 /**
  * Class SchedulerTest
- * @package Tests\Feature
  */
 class SchedulerTest extends TestCase
 {
@@ -85,8 +82,8 @@ class SchedulerTest extends TestCase
     {
         parent::setUp();
 
-        $this->scheduler = new Scheduler([
-            'cwd' => __DIR__
-        ]);
+        $this->scheduler = new Scheduler(array(
+            'cwd' => __DIR__,
+        ));
     }
 }
